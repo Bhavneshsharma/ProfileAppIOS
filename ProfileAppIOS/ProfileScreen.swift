@@ -7,7 +7,28 @@
 
 import SwiftUI
 
+var gardNumber = 0
+
 struct ProfileScreen : View{
+    @State private var requestsCount = 200
+    
+        func getFollowerCount(_ requestCount: Int) -> String {
+            gardNumber = requestCount
+            var value = ""
+            if(gardNumber == requestCount){
+                gardNumber += 100
+                value = "\(requestCount / 100)k"
+            }
+            return value
+        }
+    
+    func getFolowing(_ value : String) -> String{
+        let stringWithoutK = value.replacingOccurrences(of: "k", with: "")
+        var intnum = Int(stringWithoutK)
+        intnum! += 1
+        return String(intnum! * 10)
+    }
+    
     var body: some View{
         ZStack{
             ScrollView{
@@ -59,19 +80,23 @@ struct ProfileScreen : View{
                                 .shadow(color: .pink, radius: 8)
                             Spacer()
                             VStack(alignment: .center, spacing: 30){
-                                RoundedRectangle(cornerRadius: 120)
-                                    .frame(width: 200,height: 50, alignment: .center)
-                                    .foregroundColor(.white)
-                                    .shadow(color: .pink,radius: 8, y: 8)
-                                    .overlay(Text("Follow")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.pink)
-                                        .font(.system(size: 30))
-                                             
-                                    )
+                                Button(action: {
+                                    requestsCount += 1
+                                }){
+                                        RoundedRectangle(cornerRadius: 120)
+                                            .frame(width: 200,height: 50, alignment: .center)
+                                            .foregroundColor(.white)
+                                            .shadow(color: .pink,radius: 8, y: 8)
+                                            .overlay(Text("Follow")
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.pink)
+                                                .font(.system(size: 30))
+                                                     
+                                            )
+                                    }.buttonStyle(PlainButtonStyle())
                                 HStack(alignment: .center, spacing: 60){
                                     VStack{
-                                        Text("10k")
+                                        Text(getFollowerCount(requestsCount))
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .foregroundColor(.pink)
@@ -81,7 +106,7 @@ struct ProfileScreen : View{
                                             .shadow(radius: 8)
                                     }
                                     VStack{
-                                        Text("300")
+                                        Text(getFolowing( getFollowerCount( requestsCount)))
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .foregroundColor(.pink)
@@ -91,7 +116,7 @@ struct ProfileScreen : View{
                                             .shadow(radius: 8)
                                     }
                                     VStack{
-                                        Text("200")
+                                        Text("\(requestsCount)")
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .foregroundColor(.pink)
