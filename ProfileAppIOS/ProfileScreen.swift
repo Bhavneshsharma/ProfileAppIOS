@@ -140,7 +140,7 @@ struct ProfileScreen : View{
                         }.padding(.top, 0)
                     }.padding()
                 }
-            }
+            }.edgesIgnoringSafeArea(.all)
         }
 
     }
